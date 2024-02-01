@@ -17,9 +17,10 @@ document.querySelector('.check').addEventListener('click', function () {
   else if (rand === guess) {
     document.querySelector('.number').textContent = rand;
     document.querySelector('.message').textContent = 'You Guessed Right!';
-    if (document.querySelector('.highscore').textContent < score) {
-      document.querySelector('.highscore').textContent = score;
-    }
+    document.querySelector('.highscore').textContent =
+      score > document.querySelector('.highscore').textContent
+        ? score
+        : document.querySelector('.highscore').textContent;
     document.querySelector('.check').textContent = 'Won!';
     document.querySelector('.check').disabled = true;
     document.querySelector('.guess').disabled = true;
@@ -27,24 +28,11 @@ document.querySelector('.check').addEventListener('click', function () {
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
   }
-  // if lower than the random do this
-  else if (rand > guess) {
-    document.querySelector('.message').textContent = 'too Low!';
+  // if the user guessed wrong
+  else if (rand !== guess) {
     score--;
-    if (score > 0) {
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector('.score').textContent = 0;
-      document.querySelector('.message').textContent = 'Game Over!';
-      document.querySelector('.check').textContent = 'Lost!';
-      document.querySelector('.check').disabled = true;
-      document.querySelector('.check').style.backgroundColor = 'grey';
-    }
-  }
-  // if greater than random do this
-  else if (rand < guess) {
-    document.querySelector('.message').textContent = 'too High!';
-    score--;
+    document.querySelector('.message').textContent =
+      guess < rand ? 'Too Low!' : 'Too High!';
     if (score > 0) {
       document.querySelector('.score').textContent = score;
     } else {
@@ -56,6 +44,7 @@ document.querySelector('.check').addEventListener('click', function () {
     }
   }
 });
+
 //  Reset game when user clicks again button
 document.querySelector('.again').addEventListener('click', function () {
   document.querySelector('body').style.backgroundColor = '#222';
